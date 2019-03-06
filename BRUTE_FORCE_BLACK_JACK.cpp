@@ -39,7 +39,7 @@ int main() {
 			tmp1--;
 			int dis_1 = abs(M - *tmp1);
 			int dis_2 = abs(M - *tmp2);
-			cout << *tmp1 << " VS " << *tmp2 << endl;
+			cout << *tmp1 << " VS " << *tmp2  << endl;
 			if (dis_1 <= dis_2) {
 				cout << *tmp1;
 			}
