@@ -1,0 +1,94 @@
+#include "pch.h"
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <queue>
+#include <set>
+using namespace std;
+
+//How To Solve Connected Component?
+//1. Union_Find
+
+//2. DFS
+
+vector<int> A[1001];
+vector<pair<int, int>> E;
+int P[1001];
+bool V[1001];
+
+int N;
+int M;
+
+int Find(int N) {
+	if (P[N] == N) {
+		return N;
+	}
+	auto tmp = Find(P[N]);
+	return P[N] = tmp;
+}
+
+void Union(int s1, int s2) {
+	auto S_1 = Find(s1);
+	auto S_2 = Find(s2);
+	P[S_2] = S_1;
+}
+
+//1
+int Solve_with_UF() {
+	for (int i = 1; i <= N; i++) {
+		P[i] = i;
+	}
+	for (auto j : E) {
+		Union(j.first, j.second);
+	}
+	set<int> SET;
+	for (int i = 1; i <= N; i++) {
+		SET.insert(Find(i));
+	}
+	return SET.size();
+}
+//2
+void DFS(int i) {
+	stack<int, vector<int>> S;
+	V[i] = true;
+	S.push(i);
+	while (!S.empty()) {
+		auto tmp = S.top();
+		S.pop();
+
+		for (auto j : A[tmp]) {
+			if (!V[j]) {
+				V[j] = true;
+				S.push(j);
+			}
+		}
+	}
+}
+
+int Solve_with_DFS() {
+	auto cnt = 0;
+	for (int i = 1; i <= N; i++) {
+		if (!V[i]) {
+			cnt += 1;
+			DFS(i);
+		}
+	}
+	return cnt;
+}
+
+int main() {
+	cin >> N >> M;
+	for (int i = 0; i < M; i++) {
+		int x, y;
+		cin >> x >> y;
+		A[x].push_back(y);
+		A[y].push_back(x);
+		E.push_back(make_pair(x, y));
+	}
+
+	cout << Solve_with_UF() << endl;
+	cout << Solve_with_DFS() << endl;
+
+
+	return 0;
+}
