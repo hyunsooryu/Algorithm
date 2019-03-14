@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <iostream>
 #include <queue>
 
@@ -10,8 +11,8 @@ using namespace std;
 //X - 1
 //X * 2
 
-int V[100001];
-int D[100001];
+int V[100001]; //MIN값저장
+int D[100001]; //거리저장
 int P[100001];
 int S, E;
 auto MIN = -1;
@@ -28,72 +29,60 @@ void path_finder(int N) {
 }
 void BFS(int N) {
 	queue<int> Q;
-	V[N] = true;
-	D[N] = 0;
+	V[N] = 0;
 	Q.push(N);
 	while (!Q.empty()) {
 		auto tmp = Q.front();
 		Q.pop();
-		cout << " ________________________________" << endl;
-		cout << D[tmp] << "  " << tmp << endl;
-		cout << endl;
+		
+		cout << tmp << "   " << V[tmp] << endl;
 		if (tmp == E) {
-			if (MIN == -1) {
-				MIN = D[tmp];
-			}
-			if (D[tmp] == MIN) {
-				cnt += 1;
-			}
+			cnt += 1;
 		}
-		if (D[tmp] > MIN && MIN != -1) {
+		if (V[tmp] > V[E] && V[E] != -1) {
 			break;
 		}
 
-		if (tmp + 1 <= 100000 && !V[tmp + 1] && tmp + 1 != E) {
-			V[tmp + 1] = true;
-			D[tmp + 1] = D[tmp] + 1;
-			P[tmp + 1] = tmp;
-			Q.push(tmp + 1);
+		int x = tmp + 1;
+		int y = tmp - 1;
+		int z = tmp * 2;
+
+		if (x <= 100000) {
+			if (V[x] == -1) {
+				V[x] = V[tmp] + 1;
+				Q.push(x);
+			}
+			else if (V[tmp] + 1 == V[x]) {
+				Q.push(x);
+			}
 		}
 
-		if (tmp + 1 == E) {
-			D[tmp + 1] = D[tmp] + 1;
-			P[tmp + 1] = tmp;
-			Q.push(tmp + 1);
+		if (y >= 0) {
+			if (V[y] == -1) {
+				V[y] = V[tmp] + 1;
+				Q.push(y);
+			}
+			else if (V[tmp] + 1 == V[y]) {
+				Q.push(y);
+			}
 		}
 
-		if (tmp - 1 >= 0 && !V[tmp - 1] && tmp - 1 != E) {
-			V[tmp - 1] = true;
-			D[tmp - 1] = D[tmp] + 1;
-			P[tmp - 1] = tmp;
-			Q.push(tmp - 1);
-		}
-
-		if (tmp - 1 == E) {
-			D[tmp - 1] = D[tmp] + 1;
-			P[tmp - 1] = tmp;
-			Q.push(tmp - 1);
-		}
-
-		if (tmp * 2 >= 0 && tmp * 2 <= 100000 && !V[tmp * 2] && tmp * 2 != E) {
-			V[tmp * 2] = true;
-			D[tmp * 2] = D[tmp] + 1;
-			P[tmp * 2] = tmp;
-			Q.push(tmp * 2);
-		}
-
-		if (tmp * 2 == E) {
-			D[tmp * 2] = D[tmp] + 1;
-			P[tmp * 2] = tmp;
-			Q.push(tmp * 2);
+		if (z <= 100000) {
+			if (V[z] == -1) {
+				V[z] = V[tmp] + 1;
+				Q.push(z);
+			}
+			else if (V[tmp] + 1 == V[z]) {
+				Q.push(z);
+			}
 		}
 	}
 }
 
 
-int main() {
+int main(){
 	cin >> S >> E;
-	fill(P, P + 100001, -1);
+	fill(V, V + 100001, -1);
 	BFS(S);
 
 
