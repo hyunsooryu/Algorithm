@@ -1,11 +1,9 @@
-#include "pch.h"
 #include <iostream>
 #include <string>
 #include <stack>
 #include <vector>
 #include <map>
 using namespace std;
-
 
 
 char Start[] = {'[','{','(','<'};
