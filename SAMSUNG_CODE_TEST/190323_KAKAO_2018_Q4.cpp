@@ -57,3 +57,72 @@ int main() {
 
 	return 0;
 }
+
+/*#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
+vector<int> LIST = {4,3,3};
+int Size = 0;
+map<int, vector<int>> D;
+map<int, bool> V;
+map<int, bool> NO;
+int main() {
+	Size = LIST.size();
+	int top = 0;
+	int target = 5 - 1;
+	for (int i = 0; i < LIST.size(); i++) {
+		D[LIST[i]].push_back(i);
+	}
+	sort(LIST.begin(), LIST.end());
+	while (true) {
+		if (V[LIST[top]]) {
+			top += 1;
+			continue;
+		}
+		cout << "TARGET : " << target << endl;
+		if (!V[LIST[top]]) {
+			V[LIST[top]] = true;
+		}
+		cout << "TOP : " << LIST[top] << endl;
+		cout << "LIST[top] * Size : " << LIST[top] * Size << endl;
+		if (target >= LIST[top] * Size) {
+			target %= LIST[top] * Size;
+			for (auto j : D[LIST[top]]) {
+				NO[j] = true;
+				Size -= 1;
+			}
+			top += 1;
+		}
+		else {
+			target %= Size;
+			cout << target << endl;
+
+			for (int k = 0; k < LIST.size(); k++) {
+				if (!NO[k]) {
+					cout << k << " ";
+				}
+			}
+			cout << endl;
+			break;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	return 0;
+}
+
+
+
+*/
